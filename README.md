@@ -23,7 +23,7 @@ The system was stress-tested against a **30,000-wave Hyper-Chaos Mutation Attack
 * **Peak Induction Speed:** **6,833,889 LIPS** (Logical Inferences Per Second).
 * **Volatile RAM Footprint:** **~2.7 MB (`2,718 KB`)** total allocated state (Ultra-lightweight embedded state).
 * **Garbage Collection Overhead:** 20 core garbage collections completed in **0.000 seconds murni**.
-* **JIT Hashing Performance:** Scaled automatically to **4,096 memory buckets**, achieving an absolute **2,538.4x Speedup Factor** ($O(1)$ complexity).
+* **JIT Hashing Performance:** Scaled automatically to **4,096 memory buckets**, achieving an absolute **2,538.4x Speedup Factor**.
 
 <p align="center">
   <img src="activator_hyper_chaos.png" alt="Aethel-Core Hyper-Chaos Stress Test Proof" width="100%">
