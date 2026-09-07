@@ -15,7 +15,7 @@ A high-fidelity, high-velocity hybrid cyber security system optimized for **Real
 Runs an inline recursive normalization pipeline: Deep URL Decoding (%XX), Hexadecimal unpacking (\xXX / 0xXX), and HTML entity normalization (&lt; / &gt;) with full case-insensitivity.
 
 ### ⚡ 3. Inductive Learning & Engine Benchmark (Actual Production Metrics)
-The system was stress-tested against a **30,000-wave Hyper-Chaos Mutation Attack (v7.0 God Mode)**. The results showcase extreme processing density under heavy payload fragmentation:
+The system was stress-tested against a **40,000-wave Hyper-Chaos Mutation Attack (v7.0 God Mode)**. The results showcase extreme processing density under heavy payload fragmentation:
 
 * **Dynamic Rules Active in RAM:** **276,717 N-Gram Tokenized Rules** (Generalized from 15,000 raw threat vectors).
 * **Security Integrity:** **100% Meta-Locked Secure (0 BYPASSED / HOLES)**.
