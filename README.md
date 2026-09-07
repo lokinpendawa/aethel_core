@@ -19,14 +19,14 @@ The system was stress-tested against a **30,000-wave Hyper-Chaos Mutation Attack
 
 * **Dynamic Rules Active in RAM:** **276,717 N-Gram Tokenized Rules** (Generalized from 15,000 raw threat vectors).
 * **Security Integrity:** **100% Meta-Locked Secure (0 BYPASSED / HOLES)**.
-* **Total Inferences Executed:** 74,209,589 logical reasoning steps inside the main memory.
-* **Peak Induction Speed:** **6,833,889 LIPS** (Logical Inferences Per Second).
-* **Volatile RAM Footprint:** **~2.7 MB (`2,718 KB`)** total allocated state (Ultra-lightweight embedded state).
-* **Garbage Collection Overhead:** 20 core garbage collections completed in **0.000 seconds murni**.
-* **JIT Hashing Performance:** Scaled automatically to **4,096 memory buckets**, achieving an absolute **2,538.4x Speedup Factor**.
+* **Total Inferences Executed:** 100,201,875 logical reasoning steps inside the main memory.
+* **Peak Induction Speed:** 7,024,009 LIPS (Logical Inferences Per Second).
+* **Volatile RAM Footprint:** ~4.2 MB (4,270 KB allocated, 3,754 KB in use), berjalan sangat stabil di platform RAM 8.0 GB.
+* **Garbage Collection Overhead:** 7 core garbage collections dan 24 clause garbage collections diselesaikan dalam 0.000 seconds murni.
+* **JIT Hashing Performance:** Terindeks penuh pada 276,717 JITI Rules dalam 4,096 memory buckets, mengunci akselerasi mutlak pada 2,538.4x Speedup Factor.
 
 <p align="center">
-  <img src="activator_hyper_chaos.png" alt="Aethel-Core Hyper-Chaos Stress Test Proof" width="100%">
+  <img src="activator_hyper_chaos1.png" alt="Aethel-Core Hyper-Chaos Stress Test Proof" width="100%">
 </p>
 
 ---
