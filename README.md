@@ -45,11 +45,11 @@ The framework converts telemetry matches into structured fine-tuning logs, expor
 ---
 
 ## Intellectual Property & Copyright Licensing
-**All Rights Reserved.** 
 
-The open-source repository provides public verification for core interface blocks (`activator.pl`, `decoder.pl`), sample training sequences, and the rule schema definition (`dataset_cyber_security.pl`). 
+The public source code files in this repository (such as `activator.pl`, `decoder.pl`, `dataset_cyber_security.pl`, and the open-source sample data) are licensed under the **MIT License** (Copyright (c) 2026 Tedy Viryawan Ika Putra). You are free to inspect, benchmark, modify, and integrate these core public interfaces.
 
-The following core assets are strictly **Proprietary and protected under Intellectual Property rights**:
-1. The full production **Knowledge Base containing ~200,000 clauses**.
+However, please note that the full enterprise-grade implementation and core database extensions are strictly **Proprietary** and protected under standard Intellectual Property rights. The MIT License **does not** apply to:
+
+1. The full production **Knowledge Base containing ~200,000 advanced threat clauses**.
 2. The complete enterprise version of the **JSONL dataset**.
-3. The backend automated tokenization engine.
+3. The backend automated tokenization and mutation generation engines.
