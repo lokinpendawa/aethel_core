@@ -1,6 +1,6 @@
 # Aethel-Core: Automated Cognitive Defense & Cyber Threat Simulation WAF
 
-A high-fidelity, high-velocity hybrid cyber security system optimized for **Real-time Threat Mitigation**, **LLM Instruction Tuning**, and **Neuro-Symbolic AI Training**, built in **SWI-Prolog**.
+A hybrid cybersecurity framework built in **SWI-Prolog**, designed for real-time threat mitigation and generating structured logic datasets for **LLM Instruction Tuning** and **Neuro-Symbolic AI Training**.
 
 ---
 
@@ -9,21 +9,21 @@ A high-fidelity, high-velocity hybrid cyber security system optimized for **Real
 ### 1. High-Performance Core WAF Engine (`activator.pl`)
 * **Dynamic Backtracking Check:** Queries threat signatures in RAM via clean relational lookups.
 * **Volumetric DDoS Protection:** Sliding time-window tracking (`htg/2`) for aggressive IPs.
-* **N-Gram Tokenization & Prefix Anchor:** Breaks long signatures into granular 3-4 character primitives to defeat extreme *Double-Sandwich Obfuscations*.
+* **N-Gram Tokenization & Prefix Anchor:** Breaks long signatures into granular 3-4 character primitives to filter nested obfuscation patterns.
 
 ### 2. Multi-Layered Obfuscation Decoder (`decoder.pl`)
 Runs an inline recursive normalization pipeline: Deep URL Decoding (%XX), Hexadecimal unpacking (\xXX / 0xXX), and HTML entity normalization (&lt; / &gt;) with full case-insensitivity.
 
 ### ⚡ 3. Inductive Learning & Engine Benchmark (Actual Production Metrics)
-The system was stress-tested against a **40,000-wave Hyper-Chaos Mutation Attack (v7.0 God Mode)**. The results showcase extreme processing density under heavy payload fragmentation:
+The system was evaluated against an automated simulation script generating a **40,000-wave attack simulation**. The results demonstrate the following processing profile:
 
-* **Dynamic Rules Active in RAM:** **276,717 N-Gram Tokenized Rules** (Generalized from 15,000 raw threat vectors).
-* **Security Integrity:** **100% Meta-Locked Secure (0 BYPASSED / HOLES)**.
-* **Total Inferences Executed:** 100,201,875 logical reasoning steps inside the main memory.
+* **Dynamic Rules Active in RAM:** **276,717 N-Gram Tokenized Rules** (Compiled from 15,000 base threat vectors).
+* **Security Integrity:** **100% Block Rate (0 BYPASSED / HOLES)**.
+* **Total Inferences Executed:** 100,201,875 logical reasoning steps inside main memory.
 * **Peak Induction Speed:** 7,024,009 LIPS (Logical Inferences Per Second).
-* **Volatile RAM Footprint:** ~4.2 MB (4,270 KB allocated, 3,754 KB in use), berjalan sangat stabil di platform RAM 8.0 GB.
-* **Garbage Collection Overhead:** 7 core garbage collections dan 24 clause garbage collections diselesaikan dalam 0.000 seconds murni.
-* **JIT Hashing Performance:** Terindeks penuh pada 276,717 JITI Rules dalam 4,096 memory buckets, mengunci akselerasi mutlak pada 2,538.4x Speedup Factor.
+* **Volatile RAM Footprint:** ~4.2 MB (4,270 KB allocated, 3,754 KB in use), running with high stability on an 8.0 GB RAM platform.
+* **Garbage Collection Overhead:** 7 core garbage collections and 24 clause garbage collections completed in 0.000 seconds execution time.
+* **JIT Hashing Performance:** Fully indexed via 276,717 JITI rules across 4,096 memory buckets, delivering a 2,538.4x speedup factor.
 
 <p align="center">
   <img src="activator_hyper_chaos1.png" alt="Aethel-Core Hyper-Chaos Stress Test Proof" width="100%">
@@ -32,11 +32,24 @@ The system was stress-tested against a **40,000-wave Hyper-Chaos Mutation Attack
 ---
 
 ## 🛡️ Cyber Threat Mutation Matrix & Formats
-Covers Layer-7 traffic flooding, Web3 attacks (`sandwich_economic_attack`), Cloud infrastructure exploits (`kubelet_cri_hijack`), and cutting-edge Adversarial AI Threats (`llm_rag_poisoning`, `deepseek_weight_poison`). Supports fully-normalized JSONL exports for LLM instruction tuning.
+Covers Layer-7 traffic flooding, Web3 anomalies (`sandwich_economic_attack`), Cloud infrastructure misconfigurations (`kubelet_cri_hijack`), and Adversarial AI threat simulations (`llm_rag_poisoning`, `deepseek_weight_poison`). 
 
-*(Note: You can check the core interface execution behavior inside the repository references.)*
+The framework converts telemetry matches into structured fine-tuning logs, exporting them as normalized Chat-ML formatting sequences (`dataset_cyber.jsonl`).
 
 ---
 
-## 🔒 Intellectual Property & Licensing
-**All Rights Reserved.** The public repository contains showcase interfaces (`activator.pl`, `decoder.pl`). The backend core automation engine and inductive tokenization rules remain proprietary.
+## 📊 Dataset & Knowledge Base Schema
+*   **`dataset_cyber.jsonl`:** Open-source sample data containing Chat-ML blocks (system persona, user network payload telemetry, and automated assistant verdicts).
+*   **`dataset_cyber_security.pl`:** Public declarative interface mapping live facts (`knowledge_base/4`) to primary network security vectors.
+
+---
+
+## 🔒 Intellectual Property & Copyright Licensing
+**All Rights Reserved.** 
+
+The open-source repository provides public verification for core interface blocks (`activator.pl`, `decoder.pl`), sample training sequences, and the rule schema definition (`dataset_cyber_security.pl`). 
+
+The following core assets are strictly **Proprietary and protected under Intellectual Property rights**:
+1. The full production **Knowledge Base containing ~200,000 clauses**.
+2. The complete enterprise version of the **JSONL dataset**.
+3. The backend automated tokenization engine.
