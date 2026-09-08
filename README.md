@@ -4,7 +4,7 @@ A hybrid cybersecurity framework built in **SWI-Prolog**, designed for real-time
 
 ---
 
-## 🚀 Key Innovations & Architecture Modules
+## Key Innovations & Architecture Modules
 
 ### 1. High-Performance Core WAF Engine (`activator.pl`)
 * **Dynamic Backtracking Check:** Queries threat signatures in RAM via clean relational lookups.
@@ -14,7 +14,7 @@ A hybrid cybersecurity framework built in **SWI-Prolog**, designed for real-time
 ### 2. Multi-Layered Obfuscation Decoder (`decoder.pl`)
 Runs an inline recursive normalization pipeline: Deep URL Decoding (%XX), Hexadecimal unpacking (\xXX / 0xXX), and HTML entity normalization (&lt; / &gt;) with full case-insensitivity.
 
-### ⚡ 3. Inductive Learning & Engine Benchmark (Actual Production Metrics)
+### 3. Inductive Learning & Engine Benchmark (Actual Production Metrics)
 The system was evaluated against an automated simulation script generating a **40,000-wave attack simulation**. The results demonstrate the following processing profile:
 
 * **Dynamic Rules Active in RAM:** **276,717 N-Gram Tokenized Rules** (Compiled from 15,000 base threat vectors).
@@ -31,20 +31,20 @@ The system was evaluated against an automated simulation script generating a **4
 
 ---
 
-## 🛡️ Cyber Threat Mutation Matrix & Formats
+## Cyber Threat Mutation Matrix & Formats
 Covers Layer-7 traffic flooding, Web3 anomalies (`sandwich_economic_attack`), Cloud infrastructure misconfigurations (`kubelet_cri_hijack`), and Adversarial AI threat simulations (`llm_rag_poisoning`, `deepseek_weight_poison`). 
 
 The framework converts telemetry matches into structured fine-tuning logs, exporting them as normalized Chat-ML formatting sequences (`dataset_cyber.jsonl`).
 
 ---
 
-## 📊 Dataset & Knowledge Base Schema
+## Dataset & Knowledge Base Schema
 *   **`dataset_cyber.jsonl`:** Open-source sample data containing Chat-ML blocks (system persona, user network payload telemetry, and automated assistant verdicts).
 *   **`dataset_cyber_security.pl`:** Public declarative interface mapping live facts (`knowledge_base/4`) to primary network security vectors.
 
 ---
 
-## 🔒 Intellectual Property & Copyright Licensing
+## Intellectual Property & Copyright Licensing
 **All Rights Reserved.** 
 
 The open-source repository provides public verification for core interface blocks (`activator.pl`, `decoder.pl`), sample training sequences, and the rule schema definition (`dataset_cyber_security.pl`). 
