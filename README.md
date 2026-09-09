@@ -31,6 +31,16 @@ The system was evaluated against an automated simulation script generating a **4
 
 ---
 
+## Production Deployment Architecture
+
+### Hybrid Reverse Proxy Network Appliance (Under Active Development)
+To bridge the gap between declarative logic execution and modern cloud environments, Aethel-Core is currently evolving its production deployment model:
+* **Architecture Concept:** Operating as a standalone, ultra-lightweight **Asynchronous Reverse Proxy Gateway**.
+* **Zero-Touch Integration:** Designed to sit directly in front of existing upstream infrastructure (Node.js, Python, Rust, Go) to filter Layer-7 anomalies without touching core application codebases.
+* **Under Active Development:** The internal enterprise network socket layer and dynamic multi-threaded backend routing modules are undergoing closed-beta refinement and will be deployed in subsequent release phases.
+
+---
+
 ## Cyber Threat Mutation Matrix & Formats
 Covers Layer-7 traffic flooding, Web3 anomalies (`sandwich_economic_attack`), Cloud infrastructure misconfigurations (`kubelet_cri_hijack`), and Adversarial AI threat simulations (`llm_rag_poisoning`, `deepseek_weight_poison`). 
 
