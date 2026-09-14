@@ -14,6 +14,10 @@ A hybrid cybersecurity framework built in **SWI-Prolog**, designed for real-time
 ### 2. Multi-Layered Obfuscation Decoder (`decoder.pl`)
 Runs an inline recursive normalization pipeline: Deep URL Decoding (%XX), Hexadecimal unpacking (\xXX / 0xXX), and HTML entity normalization (&lt; / &gt;) with full case-insensitivity.
 
+<p align="center">
+  <img src="ss_browser_hacked.png" alt="hacked" width="100%">
+</p>
+
 ### 3. Inductive Learning & Engine Benchmark (Actual Production Metrics)
 The system was evaluated against an automated simulation script generating a **40,000-wave attack simulation**. The results demonstrate the following processing profile:
 
