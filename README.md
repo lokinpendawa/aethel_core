@@ -53,7 +53,7 @@ The framework converts telemetry matches into structured fine-tuning logs, expor
 ---
 
 ## Dataset & Knowledge Base Schema
-*   **`dataset_cyber.jsonl`:** Open-source sample data containing Chat-ML blocks (system persona, user network payload telemetry, and automated assistant verdicts).
+*   **`dataset_cyber.jsonl(dataset_cyber_refactor.jsonl)`:** Open-source sample data containing Chat-ML blocks (system persona, user network payload telemetry, and automated assistant verdicts).
 *   **`dataset_cyber_security.pl`:** Public declarative interface mapping live facts (`knowledge_base/4`) to primary network security vectors.
 
 ---
