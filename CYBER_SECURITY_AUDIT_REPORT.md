@@ -72,6 +72,8 @@ knowledge_base(payload_legal, "busybox sh is a lightweight shell for embedded", 
 
 Measured via `time(analyzer:uji)` across **17,160 sequential evaluations**:
 
+![Benchmark Output 17,160 Payloads](test17160_payloads.png)
+
 ### 4.1 Execution Throughput & Resource Profile
 - **Total Evaluation Time:** 6.14 seconds (6.141s CPU time)
 - **Throughput:** 2,796 requests/second
