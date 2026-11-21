@@ -1,63 +1,76 @@
-# Aethel-Core: Automated Cognitive Defense & Cyber Threat Simulation WAF
+# Aethel-Core: Neuro-Symbolic WAF & Autonomous Logic Induction Engine
 
-A hybrid cybersecurity framework built in **SWI-Prolog**, designed for real-time threat mitigation and generating structured logic datasets for **LLM Instruction Tuning** and **Neuro-Symbolic AI Training**.
+A lightweight Web Application Firewall (WAF) and inductive rule-synthesis framework built in **SWI-Prolog**. Aethel-Core compiles zero-hardcode security rules from raw traffic telemetry and executes sub-millisecond Layer-7 inspection directly over bare TCP/SSL sockets—with **zero GPU dependency** and **no upstream reverse proxy (Nginx/Cloudflare)**.
 
----
-
-## Key Innovations & Architecture Modules
-
-### 1. High-Performance Core WAF Engine (`activator.pl`)
-* **Dynamic Backtracking Check:** Queries threat signatures in RAM via clean relational lookups.
-* **Volumetric DDoS Protection:** Sliding time-window tracking (`htg/2`) for aggressive IPs.
-* **N-Gram Tokenization & Prefix Anchor:** Breaks long signatures into granular 3-4 character primitives to filter nested obfuscation patterns.
-
-### 2. Multi-Layered Obfuscation Decoder (`decoder.pl`)
-Runs an inline recursive normalization pipeline: Deep URL Decoding (%XX), Hexadecimal unpacking (\xXX / 0xXX), and HTML entity normalization (&lt; / &gt;) with full case-insensitivity.
-
-<p align="center">
-  <img src="ss_browser_hacked.png" alt="hacked" width="100%">
-</p>
-
-### 3. Inductive Learning & Engine Benchmark (Actual Production Metrics)
-The system was evaluated against an automated simulation script generating a **40,000-wave attack simulation**. The results demonstrate the following processing profile:
-
-* **Dynamic Rules Active in RAM:** **276,717 N-Gram Tokenized Rules** (Compiled from 15,000 base threat vectors).
-* **Security Integrity:** **100% Block Rate (0 BYPASSED / HOLES)**.
-* **Total Inferences Executed:** 100,201,875 logical reasoning steps inside main memory.
-* **Peak Induction Speed:** 7,024,009 LIPS (Logical Inferences Per Second).
-* **Volatile RAM Footprint:** ~4.2 MB (4,270 KB allocated, 3,754 KB in use), running with high stability on an 8.0 GB RAM platform.
-* **Garbage Collection Overhead:** 7 core garbage collections and 24 clause garbage collections completed in 0.000 seconds execution time.
-* **JIT Hashing Performance:** Fully indexed via 276,717 JITI rules across 4,096 memory buckets, delivering a 2,538.4x speedup factor.
-
-<p align="center">
-  <img src="activator_hyper_chaos1.png" alt="Aethel-Core Hyper-Chaos Stress Test Proof" width="100%">
-</p>
+🔴 **Live Interactive Testbed:** **[https://prologwaf.site/](https://prologwaf.site/)**  
+*(Exposed directly on a bare-socket SWI-Prolog server running on a 2 vCPU / 1 GB RAM GCP instance. Feel free to submit adversarial payloads via the `/hackme` audit console or inspect live telemetry.)*
 
 ---
 
-## Production Deployment Architecture
+## 1. Architecture Overview
 
-### Hybrid Reverse Proxy Network Appliance (Under Active Development)
-To bridge the gap between declarative logic execution and modern cloud environments, Aethel-Core is currently evolving its production deployment model:
-* **Architecture Concept:** Operating as a standalone, ultra-lightweight **Asynchronous Reverse Proxy Gateway**.
-* **Zero-Touch Integration:** Designed to sit directly in front of existing upstream infrastructure (Node.js, Python, Rust, Go) to filter Layer-7 anomalies without touching core application codebases.
-* **Under Active Development:** The internal enterprise network socket layer and dynamic multi-threaded backend routing modules are undergoing closed-beta refinement and will be deployed in subsequent release phases.
+Aethel-Core separates **offline inductive learning** from **stateless/stateful production inference**:
+
+### A. Offline Neuro-Symbolic Induction Pipeline
+Instead of relying on manually written regular expressions, the rulebase is synthesized automatically from labeled adversarial and clean traffic (`knowledge_base/4`):
+
+1. **Structural Tokenization & Differential Entropy (`sintesis_payload.pl`):**  
+   Decomposes payloads into structural AST/token primitives and weights them using two-way contrast entropy (`log2(P_attack / P_legal)`) scaled by cross-domain specificity.
+2. **Domain-Isolated Medoid Clustering (`self_evolving.pl`):**  
+   Groups structural attack variants per threat domain using unsupervised medoid clustering with dynamic Jaccard distance thresholds.
+3. **Epsilon-Margin Natural Selection (`validasi.pl`):**  
+   Forges candidate binary signatures with thresholds set strictly above the maximum similarity score observed across clean traffic (`MaxCleanScore + epsilon`).
+4. **CLP(FD) Bidirectional Self-Attention (`attention.pl`):**  
+   Uses Constraint Logic Programming over Finite Domains to solve optimal left/right context windows to equilibrium, compiling log-odds token pairs into static integer rules.
+
+### B. Production Runtime Engine (`analyzer.pl` + `rules.pl` + `dictionary.pl`)
+In production, training modules are stripped out. The runtime engine loads only compiled static facts into volatile memory:
+
+- **Multi-Layer Obfuscation Decoder (`decoder.pl`):** Recursively unpacks nested URL encodings (`%XX`), hex sequences, and obfuscated wrappers prior to tokenization.
+- **Unified Token Dictionary (`dictionary.pl`):** Maps structural primitives, token entropy weights, semantic abstraction classes, and threat descriptions.
+- **Bit-Packed Rulebase (`rules.pl`):**
+  - `biner/4` (**3,666 clauses**): Multi-argument JIT-indexed across 4,096 buckets (up to **2,897.6x** lookup speedup).
+  - `attentions/2` (**79,699 clauses**): 24-bit bit-packed token pair IDs (`(ID1 << 24) \/ ID2`) indexed across 131,072 buckets (**79,699.0x** lookup speedup, cross-platform deterministic).
 
 ---
 
-## Cyber Threat Mutation Matrix & Formats
-Covers Layer-7 traffic flooding, Web3 anomalies (`sandwich_economic_attack`), Cloud infrastructure misconfigurations (`kubelet_cri_hijack`), and Adversarial AI threat simulations (`llm_rag_poisoning`, `deepseek_weight_poison`). 
+## 2. Empirical Benchmark & Evaluation Summary
 
-The framework converts telemetry matches into structured fine-tuning logs, exporting them as normalized Chat-ML formatting sequences (`dataset_cyber.jsonl`).
+Evaluated directly via `analyzer:periksa_waf/3` against **17,160 payloads** (12,315 malicious vectors across RCE, SSTI, Path Traversal, SQLi, XSS, and Zero-Day mutations vs. 4,844 clean technical/CLI strings):
+
+- **Total Operational Clauses:** 83,365 clauses (`3,666` binary signatures + `79,699` bit-packed attention pairs)
+- **Attack Detection Recall:** **96.50%** (11,884 blocked / 3.50% false negative)
+- **Clean Traffic Specificity:** **99.07%** (4,799 passed / 0.93% false positive)
+- **Evaluation Throughput:** **2,796 requests/second** (`0.358 ms/req` average; `0.0381 ms` on live socket telemetry)
+- **Logical Inference Speed:** **16,170,505 LIPS** (99.29M inferences in 6.14 seconds)
+
+📄 Full audit details and sample test vectors are documented in [`CYBER_SECURITY_AUDIT_REPORT.md`](CYBER_SECURITY_AUDIT_REPORT.md).
 
 ---
 
-## Dataset & Knowledge Base Schema
-*   **`dataset_cyber.jsonl(dataset_cyber_refactor.jsonl)`:** Open-source sample data containing Chat-ML blocks (system persona, user network payload telemetry, and automated assistant verdicts).
-*   **`dataset_cyber_security.pl`:** Public declarative interface mapping live facts (`knowledge_base/4`) to primary network security vectors.
+## 3. Standalone Runtime Quickstart
+
+To run `analyzer.pl` locally in SWI-Prolog (requires `analyzer.pl`, `rules.pl`, `dictionary.pl`, `tokenisasi_struktural.pl`, and `decoder.pl` in the working directory):
+
+```bash
+swipl analyzer.pl
+```
+
+```prolog
+?- analyzer:periksa_waf("bash<<<\$(base64 -d<<<aWQ=)", Keputusan, Alasan).
+Keputusan = blokir,
+Alasan = '[rce_command_injection] Command substitution env (leak secret)'.
+```
 
 ---
 
-## Intellectual Property & Copyright Licensing
+## 4. Telemetry & Dataset Schema
 
-The public source code files in this repository (such as `activator.pl`, `decoder.pl`, `dataset_cyber_security.pl`, and the open-source sample data) are licensed under the **MIT License** (Copyright (c) 2026 Tedy Viryawan Ika Putra). You are free to inspect, benchmark, modify, and integrate these core public interfaces.
+- **`dataset_cyber.jsonl` / `dataset_cyber_refactor.jsonl`:** Structured Chat-ML telemetry logs generated automatically when live threats are intercepted, suitable for downstream LLM security fine-tuning.
+- **`dataset_cyber_security.pl`:** Public declarative interface mapping `knowledge_base/4` facts to primary attack categories and clean baselines.
+
+---
+
+## 5. License & Copyright
+
+Public source interfaces and sample datasets in this repository are licensed under the **MIT License** — Copyright (c) 2026 **Tedy Viryawan Ika Putra**.
